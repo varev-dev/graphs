@@ -5,25 +5,33 @@
 #ifndef GRAPHS_VECTOR_H
 #define GRAPHS_VECTOR_H
 
+#include <cstddef>
+
 #define uint64_t unsigned long long
+#define RESIZE_SCALE 2
+#define INIT_CAPACITY 3
 
 template <typename T>
 class Vector {
 private:
-    uint64_t size, capacity;
+    size_t size, capacity;
     T* data;
 
 public:
-    Vector(uint64_t size);
+    Vector();
+    explicit Vector(size_t init_capacity);
     ~Vector();
 
-    unsigned long long getSize();
-    void resize(uint64_t size);
+    size_t getSize();
+    void resize(size_t new_capacity);
 
-    T& operator[](uint64_t size);
-    const T& operator[](uint64_t) const;
-    Vector& operator=(const T& value);
+    void push_back(const T& value);
+    void print() const;
 
+    T& operator[](size_t index);
+    const T& operator[](size_t index) const;
 };
+
+#include "../src/Vector.tpp"
 
 #endif //GRAPHS_VECTOR_H
