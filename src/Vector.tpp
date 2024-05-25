@@ -52,18 +52,62 @@ void Vector<T>::push_back(const T &value) {
 template<typename T>
 void Vector<T>::print() const {
     for (size_t i = 0; i < size; i++)
-        printf("%d\n", data[i]);
+        printf("%d ", data[i]);
 }
 
 template<typename T>
-T& Vector<T>::operator[](uint64_t index) {
+bool Vector<T>::isSorted() {
+    for (int i = 0; i < size-1; i++) {
+        if (data[i] < data[i+1])
+            return false;
+    }
+    return true;
+}
+
+template<typename T>
+void Vector<T>::sort(size_t leftIter, size_t rightIter) {
+    if (leftIter >= rightIter || rightIter >= size || isSorted())
+        return;
+
+    size_t pivot = partition(leftIter, rightIter);
+    sort(leftIter, pivot);
+    sort(pivot+1, rightIter);
+}
+
+template <typename T>
+size_t Vector<T>::partition(size_t leftIter, size_t rightIter) {
+    size_t pivot = data[leftIter];
+
+    while (true) {
+        while (data[leftIter] > pivot)
+            leftIter++;
+        while (data[rightIter] < pivot)
+            rightIter--;
+
+        if (leftIter < rightIter) {
+            T temp = data[leftIter];
+            data[leftIter] = data[rightIter];
+            data[rightIter] = temp;
+            this->print();
+            printf("\n");
+        } else {
+            return rightIter;
+        }
+
+        leftIter++;
+        rightIter--;
+    }
+}
+
+template<typename T>
+T& Vector<T>::operator[](size_t index) {
     if (index >= size)
         throw std::out_of_range("index out of range");
     return data[index];
 }
 
 template<typename T>
-const T& Vector<T>::operator[](uint64_t index) const {
+const T& Vector<T>::operator[](size_t index) const {
     if (index >= size)
         throw std::out_of_range("index out of range");
     return data[index];

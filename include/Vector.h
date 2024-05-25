@@ -7,7 +7,6 @@
 
 #include <cstddef>
 
-#define uint64_t unsigned long long
 #define RESIZE_SCALE 2
 #define INIT_CAPACITY 3
 
@@ -16,6 +15,9 @@ class Vector {
 private:
     size_t size, capacity;
     T* data;
+
+    bool isSorted();
+    size_t partition(size_t leftIter, size_t rightIter);
 
 public:
     Vector();
@@ -27,6 +29,8 @@ public:
 
     void push_back(const T& value);
     void print() const;
+
+    void sort(size_t leftIter, size_t rightIter);
 
     T& operator[](size_t index);
     const T& operator[](size_t index) const;
