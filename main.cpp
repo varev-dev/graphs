@@ -18,30 +18,43 @@ size_t readNextNumber() {
     return value;
 }
 
-Vector<Vector<int>>& readVertexes(size_t n) {
-    auto* data = new Vector<Vector<int>>(n);
+Vector<Vector<unsigned long long>>* readVertices(unsigned long long n) {
+    auto* data = new Vector<Vector<unsigned long long>>(n);
+    unsigned long long size;
     while (n) {
-        size_t size = readNextNumber();
-        auto* vertex = new Vector<int>(size);
+        scanf("%llu", &size);
+        auto* vertex = new Vector<unsigned long long>(size);
+        unsigned long long value = 0;
 
-        while (size) {
-            int value = (int) readNextNumber();
+        while (size && std::cin >> value) {
             vertex->push_back(value);
             size--;
         }
         data->push_back(*vertex);
+        delete vertex;
         n--;
     }
-    return *data;
+    return data;
 }
 
 int main() {
-    size_t graphs = readNextNumber();
+    unsigned long long  graphs;
+    scanf("%llu", &graphs);
     while (graphs) {
-        size_t n = readNextNumber();
-        auto* vertices = &readVertexes(n);
+        unsigned long long n;
+        scanf("%llu", &n);
+        auto* vertices = readVertices(n);
         auto* graph = new Graph(*vertices);
         graph->degreeSequence();
+        graph->connectedComponents();
+        graph->bipartiteness();
+        graph->verticesEccentricity();
+        graph->planarity();
+        graph->vertexColors();
+        graph->subgraphsC4();
+        graph->complementEdges();
+        delete graph;
+        delete vertices;
         graphs--;
     }
     return 0;

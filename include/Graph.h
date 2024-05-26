@@ -9,12 +9,21 @@
 
 class Graph {
 private:
-    Vector<Vector<int>> vertices;
+    Vector<Vector<unsigned long long>> vertices;
 
 public:
-    explicit Graph(const Vector<Vector<int>>& vertices);
+    explicit Graph(const Vector<Vector<unsigned long long>>& vertices);
     ~Graph();
-    Vector<int>& degreeSequence();
+
+    void degreeSequence();
+    void connectedComponents();
+
+    void bipartiteness();
+    void verticesEccentricity();
+    void planarity();
+    void vertexColors();
+    void subgraphsC4();
+    void complementEdges();
 };
 
 #endif //GRAPHS_GRAPH_H

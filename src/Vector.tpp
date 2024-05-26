@@ -7,17 +7,27 @@
 
 #include <cstdio>
 #include <stdexcept>
+#include <iostream>
 #include "../include/Vector.h"
 
-
 template<typename T>
-Vector<T>::Vector() : size(0), capacity(INIT_CAPACITY) {
+Vector<T>::Vector() : size(0llu), capacity(INIT_CAPACITY) {
     data = new T[capacity];
 }
 
 template<typename T>
-Vector<T>::Vector(size_t init_capacity) : size(0), capacity(init_capacity) {
+Vector<T>::Vector(unsigned long long init_capacity) : size(0), capacity(init_capacity) {
     data = new T[capacity];
+}
+
+template<typename T>
+Vector<T>::Vector(const Vector<T>& other) : size(other.size), capacity(other.capacity), data(nullptr) {
+    if (capacity > 0) {
+        data = new T[capacity];
+        for (unsigned long long i = 0; i < size; ++i) {
+            data[i] = other.data[i];
+        }
+    }
 }
 
 template<typename T>
@@ -26,15 +36,15 @@ Vector<T>::~Vector() {
 }
 
 template<typename T>
-size_t Vector<T>::getSize() {
+unsigned long long Vector<T>::getSize() const {
     return this->size;
 }
 
 template<typename T>
-void Vector<T>::resize(size_t new_capacity) {
+void Vector<T>::resize(unsigned long long new_capacity) {
     T* new_data = new T[new_capacity];
 
-    for (size_t i = 0; i < size; i++)
+    for (unsigned long long i = 0llu; i < size; i++)
         new_data[i] = data[i];
     delete[] data;
 
@@ -51,13 +61,14 @@ void Vector<T>::push_back(const T &value) {
 
 template<typename T>
 void Vector<T>::print() const {
-    for (size_t i = 0; i < size; i++)
-        printf("%d ", data[i]);
+    for (unsigned long long i = 0llu; i < size; i++)
+        printf("%llu ", data[i]);
+    printf("\n");
 }
 
 template<typename T>
-bool Vector<T>::isSorted() {
-    for (int i = 0; i < size-1; i++) {
+bool Vector<T>::isSorted() const {
+    for (unsigned long long i = 0llu; i < size-1; i++) {
         if (data[i] < data[i+1])
             return false;
     }
@@ -65,18 +76,18 @@ bool Vector<T>::isSorted() {
 }
 
 template<typename T>
-void Vector<T>::sort(size_t leftIter, size_t rightIter) {
+void Vector<T>::sort(unsigned long long leftIter, unsigned long long rightIter) {
     if (leftIter >= rightIter || rightIter >= size || isSorted())
         return;
 
-    size_t pivot = partition(leftIter, rightIter);
+    unsigned long long pivot = partition(leftIter, rightIter);
     sort(leftIter, pivot);
     sort(pivot+1, rightIter);
 }
 
 template <typename T>
-size_t Vector<T>::partition(size_t leftIter, size_t rightIter) {
-    size_t pivot = data[leftIter];
+unsigned long long Vector<T>::partition(unsigned long long leftIter, unsigned long long rightIter) {
+    unsigned long long pivot = data[leftIter];
 
     while (true) {
         while (data[leftIter] > pivot)
@@ -88,8 +99,6 @@ size_t Vector<T>::partition(size_t leftIter, size_t rightIter) {
             T temp = data[leftIter];
             data[leftIter] = data[rightIter];
             data[rightIter] = temp;
-            this->print();
-            printf("\n");
         } else {
             return rightIter;
         }
@@ -100,14 +109,31 @@ size_t Vector<T>::partition(size_t leftIter, size_t rightIter) {
 }
 
 template<typename T>
-T& Vector<T>::operator[](size_t index) {
+Vector<T>& Vector<T>::operator=(const Vector<T> &other) {
+    if (this != &other) {
+        delete[] data;
+        size = other.size;
+        capacity = other.capacity;
+        data = nullptr;
+        if (capacity > 0) {
+            data = new T[capacity];
+            for (unsigned long long i = 0; i < size; ++i) {
+                data[i] = other.data[i];
+            }
+        }
+    }
+    return *this;
+}
+
+template<typename T>
+T& Vector<T>::operator[](unsigned long long index) {
     if (index >= size)
         throw std::out_of_range("index out of range");
     return data[index];
 }
 
 template<typename T>
-const T& Vector<T>::operator[](size_t index) const {
+const T& Vector<T>::operator[](unsigned long long index) const {
     if (index >= size)
         throw std::out_of_range("index out of range");
     return data[index];

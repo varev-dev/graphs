@@ -4,20 +4,47 @@
 
 #include "../include/Graph.h"
 
-Vector<int>& Graph::degreeSequence() {
-    auto* degrees = new Vector<int>(this->vertices.getSize());
+void Graph::degreeSequence() {
+    Vector<unsigned long long> degrees(this->vertices.getSize());
 
-    for (size_t i = 0; i < this->vertices.getSize(); i++)
-        degrees->push_back( (int) this->vertices[i].getSize());
+    for (unsigned long long i = 0; i < this->vertices.getSize(); i++)
+        degrees.push_back(this->vertices[i].getSize());
 
-    degrees->sort(0, degrees->getSize()-1);
-    degrees->print();
-    return *degrees;
+    degrees.sort(0, degrees.getSize() - 1);
+    degrees.print();
 }
 
-Graph::Graph(const Vector<Vector<int>>& vertices) : vertices(vertices) {
+void Graph::connectedComponents() {
+    printf("?\n");
 }
 
-Graph::~Graph() {
-    delete &vertices;
+void Graph::bipartiteness() {
+    printf("?\n");
 }
+
+void Graph::verticesEccentricity() {
+    printf("?\n");
+}
+
+void Graph::planarity() {
+    printf("?\n");
+}
+
+void Graph::vertexColors() {
+    printf("?\n");
+    printf("?\n");
+    printf("?\n");
+}
+
+void Graph::subgraphsC4() {
+    printf("?\n");
+}
+
+void Graph::complementEdges() {
+    printf("?\n");
+}
+
+Graph::Graph(const Vector<Vector<unsigned long long>>& vertices) : vertices(vertices) {
+}
+
+Graph::~Graph() = default;
