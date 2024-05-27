@@ -25,13 +25,13 @@ void Graph::degreeSequence() {
 }
 
 void Graph::bfs(unsigned long long vertex_id, unsigned long long *status) {
-    if (!status)
+    if (!status) {
         status = new unsigned long long[vertices.getSize()];
+        for (unsigned long long i = 0; i < vertices.getSize(); ++i)
+            status[i] = UNCHECKED;
+    }
     auto* parent = new unsigned long long[vertices.getSize()];
     auto* queue = new Queue<unsigned long long>(vertices.getSize());
-
-    for (int i = 0; i < vertices.getSize(); ++i)
-        status[i] = UNCHECKED;
 
     status[vertex_id] = STAGED;
     parent[vertex_id] = vertex_id;
@@ -53,7 +53,21 @@ void Graph::bfs(unsigned long long vertex_id, unsigned long long *status) {
 }
 
 void Graph::connectedComponents() {
-    printf("?\n");
+    auto* status = new unsigned long long[vertices.getSize()];
+    unsigned long long counter = 0;
+
+    for (unsigned long long i = 0; i < vertices.getSize(); i++)
+        status[i] = UNCHECKED;
+
+    for (unsigned long long i = 0llu; i < vertices.getSize(); i++) {
+        if (status[i] != UNCHECKED)
+            continue;
+
+        bfs(i, status);
+        counter++;
+    }
+
+    printf("%llu\n", counter);
 }
 
 void Graph::bipartiteness() {

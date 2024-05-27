@@ -50,7 +50,7 @@ void Queue<T>::resize() {
 
 template<typename T>
 bool Queue<T>::isEmpty() const {
-    return size;
+    return size == 0;
 }
 
 template<typename T>

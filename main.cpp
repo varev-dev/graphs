@@ -1,23 +1,6 @@
 #include "include/Vector.h"
 #include "include/Graph.h"
 
-size_t readNextNumber() {
-    size_t value = 0;
-    char in = 0;
-
-    while (in != ' ' && in != '\n') {
-        in = (char) getchar();
-
-        if (in < '0' || in > '9')
-            continue;
-
-        value *= 10;
-        value += in-'0';
-    }
-
-    return value;
-}
-
 Vector<Vector<unsigned long long>>* readVertices(unsigned long long n) {
     auto* data = new Vector<Vector<unsigned long long>>(n);
     unsigned long long size;
@@ -38,7 +21,7 @@ Vector<Vector<unsigned long long>>* readVertices(unsigned long long n) {
 }
 
 int main() {
-    unsigned long long  graphs;
+    unsigned long long graphs;
     scanf("%llu", &graphs);
     while (graphs) {
         unsigned long long n;
