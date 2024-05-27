@@ -41,12 +41,13 @@ void Graph::bfs(unsigned long long vertex_id, unsigned long long *status) {
         unsigned long long current = queue->dequeue();
 
         for (unsigned long long i = 0llu; i < vertices[current].getSize(); i++) {
-            if (status[vertices[current][i]] != UNCHECKED)
+            unsigned long long check = vertices[current][i] - 1llu;
+            if (status[check] != UNCHECKED)
                 continue;
 
-            status[vertices[current][i]] = STAGED;
-            parent[vertices[current][i]] = current;
-            queue->enqueue(vertices[current][i]);
+            status[check] = STAGED;
+            parent[check] = current;
+            queue->enqueue(check);
             status[current] = VISITED;
         }
     }
@@ -102,5 +103,5 @@ void Graph::complementEdges() {
 
     unsigned long long complement_edges = max_edges - current_edges;
 
-    printf("%llu", complement_edges);
+    printf("%llu\n", complement_edges);
 }

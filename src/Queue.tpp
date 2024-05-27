@@ -65,7 +65,6 @@ template<typename T>
 T& Queue<T>::dequeue() {
     if (size <= 0)
         throw std::out_of_range("queue is empty");
-
     T& value = data[0];
     for (unsigned long long i = 1llu; i < size; i++)
         data[i-1llu] = data[i];
