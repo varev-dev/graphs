@@ -22,6 +22,7 @@ public:
     [[nodiscard]] unsigned long long getSize() const;
     T* getData() const;
 
+    [[nodiscard]] bool isEmpty() const;
     void enqueue(const T& value);
     T& dequeue();
 

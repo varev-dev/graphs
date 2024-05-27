@@ -3,6 +3,11 @@
 //
 
 #include "../include/Graph.h"
+#include "../include/Queue.h"
+
+#define UNCHECKED 0
+#define STAGED 1
+#define VISITED 2
 
 Graph::Graph(const Vector<Vector<unsigned long long>>& vertices) : vertices(vertices) {
 }
@@ -17,6 +22,34 @@ void Graph::degreeSequence() {
 
     degrees.sort(0, degrees.getSize() - 1);
     degrees.print();
+}
+
+void Graph::bfs(unsigned long long vertex_id, unsigned long long *status) {
+    if (!status)
+        status = new unsigned long long[vertices.getSize()];
+    auto* parent = new unsigned long long[vertices.getSize()];
+    auto* queue = new Queue<unsigned long long>(vertices.getSize());
+
+    for (int i = 0; i < vertices.getSize(); ++i)
+        status[i] = UNCHECKED;
+
+    status[vertex_id] = STAGED;
+    parent[vertex_id] = vertex_id;
+    queue->enqueue(vertex_id);
+
+    while (!queue->isEmpty()) {
+        unsigned long long current = queue->dequeue();
+
+        for (unsigned long long i = 0llu; i < vertices[current].getSize(); i++) {
+            if (status[vertices[current][i]] != UNCHECKED)
+                continue;
+
+            status[vertices[current][i]] = STAGED;
+            parent[vertices[current][i]] = current;
+            queue->enqueue(vertices[current][i]);
+            status[current] = VISITED;
+        }
+    }
 }
 
 void Graph::connectedComponents() {

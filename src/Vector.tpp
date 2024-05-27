@@ -24,9 +24,8 @@ template<typename T>
 Vector<T>::Vector(const Vector<T>& other) : size(other.size), capacity(other.capacity), data(nullptr) {
     if (capacity > 0) {
         data = new T[capacity];
-        for (unsigned long long i = 0; i < size; ++i) {
+        for (unsigned long long i = 0; i < size; i++)
             data[i] = other.data[i];
-        }
     }
 }
 
@@ -53,7 +52,7 @@ void Vector<T>::resize(unsigned long long new_capacity) {
 }
 
 template<typename T>
-void Vector<T>::push_back(const T &value) {
+void Vector<T>::push_back(const T& value) {
     if (capacity <= size)
         resize(capacity * RESIZE_SCALE);
     data[size++] = value;
@@ -68,8 +67,8 @@ void Vector<T>::print() const {
 
 template<typename T>
 bool Vector<T>::isSorted() const {
-    for (unsigned long long i = 0llu; i < size-1; i++) {
-        if (data[i] < data[i+1])
+    for (unsigned long long i = 0llu; i < size-1llu; i++) {
+        if (data[i] < data[i+1llu])
             return false;
     }
     return true;
@@ -82,7 +81,7 @@ void Vector<T>::sort(unsigned long long leftIter, unsigned long long rightIter) 
 
     unsigned long long pivot = partition(leftIter, rightIter);
     sort(leftIter, pivot);
-    sort(pivot+1, rightIter);
+    sort(pivot+1llu, rightIter);
 }
 
 template <typename T>

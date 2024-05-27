@@ -11,18 +11,19 @@ class Graph {
 private:
     Vector<Vector<unsigned long long>> vertices;
 
+    void bfs(unsigned long long int vertex_id = 0, unsigned long long *status = nullptr);
 public:
     explicit Graph(const Vector<Vector<unsigned long long>>& vertices);
-    ~Graph();
 
+    ~Graph();
     void degreeSequence();
     void connectedComponents();
-
     void bipartiteness();
     void verticesEccentricity();
     void planarity();
     void vertexColors();
     void subgraphsC4();
+
     void complementEdges();
 };
 

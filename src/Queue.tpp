@@ -49,6 +49,11 @@ void Queue<T>::resize() {
 }
 
 template<typename T>
+bool Queue<T>::isEmpty() const {
+    return size;
+}
+
+template<typename T>
 void Queue<T>::enqueue(const T& value) {
     if (size >= capacity)
         resize();
