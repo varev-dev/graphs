@@ -4,6 +4,11 @@
 
 #include "../include/Graph.h"
 
+Graph::Graph(const Vector<Vector<unsigned long long>>& vertices) : vertices(vertices) {
+}
+
+Graph::~Graph() = default;
+
 void Graph::degreeSequence() {
     Vector<unsigned long long> degrees(this->vertices.getSize());
 
@@ -41,10 +46,14 @@ void Graph::subgraphsC4() {
 }
 
 void Graph::complementEdges() {
-    printf("?\n");
-}
+    unsigned long long max_edges = vertices.getSize() * (vertices.getSize() - 1) / 2;
+    unsigned long long current_edges = 0;
 
-Graph::Graph(const Vector<Vector<unsigned long long>>& vertices) : vertices(vertices) {
-}
+    for (unsigned long long i = 0; i < vertices.getSize(); i++)
+        current_edges += vertices[i].getSize();
+    current_edges /= 2;
 
-Graph::~Graph() = default;
+    unsigned long long complement_edges = max_edges - current_edges;
+
+    printf("%llu", complement_edges);
+}

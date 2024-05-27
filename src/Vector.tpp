@@ -87,7 +87,7 @@ void Vector<T>::sort(unsigned long long leftIter, unsigned long long rightIter) 
 
 template <typename T>
 unsigned long long Vector<T>::partition(unsigned long long leftIter, unsigned long long rightIter) {
-    unsigned long long pivot = data[leftIter];
+    T pivot = data[leftIter];
 
     while (true) {
         while (data[leftIter] > pivot)
