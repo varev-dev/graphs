@@ -30,11 +30,9 @@ void Graph::bfs(unsigned long long vertex_id, unsigned long long *status) {
         for (unsigned long long i = 0; i < vertices.getSize(); ++i)
             status[i] = UNCHECKED;
     }
-    auto* parent = new unsigned long long[vertices.getSize()];
     auto* queue = new Queue<unsigned long long>(vertices.getSize());
 
     status[vertex_id] = STAGED;
-    parent[vertex_id] = vertex_id;
     queue->enqueue(vertex_id);
 
     while (!queue->isEmpty()) {
@@ -42,15 +40,17 @@ void Graph::bfs(unsigned long long vertex_id, unsigned long long *status) {
 
         for (unsigned long long i = 0llu; i < vertices[current].getSize(); i++) {
             unsigned long long check = vertices[current][i] - 1llu;
-            if (status[check] != UNCHECKED)
+
+            if (status[check] != UNCHECKED) {
                 continue;
+            }
 
             status[check] = STAGED;
-            parent[check] = current;
             queue->enqueue(check);
             status[current] = VISITED;
         }
     }
+    delete queue;
 }
 
 void Graph::connectedComponents() {
@@ -67,6 +67,7 @@ void Graph::connectedComponents() {
         bfs(i, status);
         counter++;
     }
+    delete[] status;
 
     printf("%llu\n", counter);
 }

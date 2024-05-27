@@ -27,6 +27,14 @@ Queue<T>::~Queue() {
 }
 
 template<typename T>
+void Queue<T>::print() {
+    for (unsigned long long i = 0llu; i < size; i++) {
+        printf("%llu ", data[i]);
+    }
+    printf("\n");
+}
+
+template<typename T>
 unsigned long long Queue<T>::getSize() const {
     return size;
 }
@@ -58,14 +66,15 @@ void Queue<T>::enqueue(const T& value) {
     if (size >= capacity)
         resize();
 
-    data[size++] = value;
+    data[size] = value;
+    size++;
 }
 
 template<typename T>
-T& Queue<T>::dequeue() {
+T Queue<T>::dequeue() {
     if (size <= 0)
         throw std::out_of_range("queue is empty");
-    T& value = data[0];
+    T value = data[0];
     for (unsigned long long i = 1llu; i < size; i++)
         data[i-1llu] = data[i];
     size--;

@@ -23,8 +23,10 @@ public:
     T* getData() const;
 
     [[nodiscard]] bool isEmpty() const;
+    void print();
+
     void enqueue(const T& value);
-    T& dequeue();
+    T dequeue();
 
     T& head();
     T& tail();
