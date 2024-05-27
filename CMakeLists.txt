@@ -7,4 +7,6 @@ add_executable(graphs main.cpp
         src/Graph.cpp
         include/Graph.h
         include/Vector.h
-        src/Vector.tpp)
+        src/Vector.tpp
+        include/Queue.h
+        src/Queue.tpp)
