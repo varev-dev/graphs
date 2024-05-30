@@ -1,12 +1,12 @@
 #include "include/Vector.h"
 #include "include/Graph.h"
 
-void readVertices(unsigned long long n, Vector<Vector<unsigned long long>>& vertices) {
-    unsigned long long size;
+void readVertices(unsigned int n, Vector<Vector<unsigned int>>& vertices) {
+    unsigned int size;
     while (n) {
-        scanf("%llu", &size);
-        auto* vertex = new Vector<unsigned long long>(size);
-        unsigned long long value = 0;
+        scanf("%u", &size);
+        auto* vertex = new Vector<unsigned int>(size);
+        unsigned int value = 0;
         while (size && std::cin >> value) {
             vertex->push_back(value);
             size--;
@@ -18,11 +18,11 @@ void readVertices(unsigned long long n, Vector<Vector<unsigned long long>>& vert
 }
 
 int main() {
-    unsigned long long graphs;
-    scanf("%llu", &graphs);
+    unsigned int graphs;
+    scanf("%u", &graphs);
     while (graphs) {
-        unsigned long long n;
-        scanf("%llu", &n);
+        unsigned int n;
+        scanf("%u", &n);
         auto* graph = new Graph(n);
         readVertices(n, graph->getVertices());
         graph->degreeSequence();

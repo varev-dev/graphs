@@ -10,16 +10,16 @@
 template<typename T>
 class Queue {
 private:
-    unsigned long long size, capacity;
+    unsigned int size, capacity;
     T* data;
 
     void resize();
 public:
-    explicit Queue(unsigned long long init_capacity);
+    explicit Queue(unsigned int init_capacity);
     Queue(const Queue<T>& other);
     ~Queue();
 
-    [[nodiscard]] unsigned long long getSize() const;
+    [[nodiscard]] unsigned int getSize() const;
     T* getData() const;
 
     [[nodiscard]] bool isEmpty() const;

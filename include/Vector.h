@@ -13,29 +13,29 @@
 template <typename T>
 class Vector {
 private:
-    unsigned long long size, capacity;
+    unsigned int size, capacity;
     T* data;
 
     [[nodiscard]] bool isSorted() const;
-    unsigned long long partition(unsigned long long leftIter, unsigned long long rightIter);
+    unsigned int partition(unsigned int leftIter, unsigned int rightIter);
 
 public:
     Vector();
-    explicit Vector(unsigned long long init_capacity);
+    explicit Vector(unsigned int init_capacity);
     Vector(const Vector<T>& other);
     ~Vector();
 
-    [[nodiscard]] unsigned long long getSize() const;
-    void resize(unsigned long long new_capacity);
+    [[nodiscard]] unsigned int getSize() const;
+    void resize(unsigned int new_capacity);
 
     void push_back(const T& value);
     void print() const;
 
-    void sort(unsigned long long leftIter, unsigned long long rightIter);
+    void sort(unsigned int leftIter, unsigned int rightIter);
 
     Vector<T>& operator=(const Vector& other);
-    T& operator[](unsigned long long index);
-    const T& operator[](unsigned long long index) const;
+    T& operator[](unsigned int index);
+    const T& operator[](unsigned int index) const;
 };
 
 #include "../src/Vector.tpp"

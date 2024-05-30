@@ -9,13 +9,13 @@
 
 class Graph {
 private:
-    Vector<Vector<unsigned long long>> vertices;
+    Vector<Vector<unsigned int>> vertices;
 
 public:
-    explicit Graph(unsigned long long int vert);
-    explicit Graph(const Vector<Vector<unsigned long long>>& vertices);
+    explicit Graph(unsigned int vert);
+    explicit Graph(const Vector<Vector<unsigned int>>& vertices);
 
-    Vector<Vector<unsigned long long>>& getVertices();
+    Vector<Vector<unsigned int>>& getVertices();
 
     ~Graph();
 

@@ -9,19 +9,19 @@
 #define STAGED 1
 #define VISITED 2
 
-Graph::Graph(unsigned long long vert) {
-    vertices = Vector<Vector<unsigned long long>>(vert);
+Graph::Graph(unsigned int vert) {
+    vertices = Vector<Vector<unsigned int>>(vert);
 }
 
-Graph::Graph(const Vector<Vector<unsigned long long>>& vertices) : vertices(vertices) {
+Graph::Graph(const Vector<Vector<unsigned int>>& vertices) : vertices(vertices) {
 }
 
 Graph::~Graph() = default;
 
 void Graph::degreeSequence() {
-    Vector<unsigned long long> degrees(this->vertices.getSize());
+    Vector<unsigned int> degrees(this->vertices.getSize());
 
-    for (unsigned long long i = 0; i < this->vertices.getSize(); i++)
+    for (unsigned int i = 0; i < this->vertices.getSize(); i++)
         degrees.push_back(this->vertices[i].getSize());
 
     degrees.sort(0, degrees.getSize() - 1);
@@ -30,25 +30,25 @@ void Graph::degreeSequence() {
 
 void Graph::connectedComponents() {
     auto* status = new char[vertices.getSize()];
-    unsigned long long counter = 0;
+    unsigned int counter = 0;
 
-    for (unsigned long long i = 0; i < vertices.getSize(); i++)
+    for (unsigned int i = 0; i < vertices.getSize(); i++)
         status[i] = UNCHECKED;
 
-    for (unsigned long long i = 0llu; i < vertices.getSize(); i++) {
+    for (unsigned int i = 0; i < vertices.getSize(); i++) {
         if (status[i] != UNCHECKED)
             continue;
 
-        Queue<unsigned long long> queue(vertices.getSize());
+        Queue<unsigned int> queue(vertices.getSize());
 
         status[i] = STAGED;
         queue.enqueue(i);
 
         while (!queue.isEmpty()) {
-            unsigned long long current = queue.dequeue();
+            unsigned int current = queue.dequeue();
 
-            for (unsigned long long j = 0llu; j < vertices[current].getSize(); j++) {
-                unsigned long long check = vertices[current][j] - 1llu;
+            for (unsigned int j = 0; j < vertices[current].getSize(); j++) {
+                unsigned int check = vertices[current][j] - 1;
 
                 if (status[check] != UNCHECKED) {
                     continue;
@@ -63,20 +63,20 @@ void Graph::connectedComponents() {
     }
     delete[] status;
 
-    printf("%llu\n", counter);
+    printf("%u\n", counter);
 }
 
 void Graph::bipartiteness() {
     char* status = new char[vertices.getSize()];
     char* side = new char[vertices.getSize()];
-    Queue<unsigned long long> queue(vertices.getSize());
+    Queue<unsigned int> queue(vertices.getSize());
 
-    for (unsigned long long i = 0llu; i < vertices.getSize(); i++) {
+    for (unsigned int i = 0; i < vertices.getSize(); i++) {
         status[i] = 0;
         side[i] = 0;
     }
 
-    for (unsigned long long vertex = 0; vertex < vertices.getSize(); vertex++) {
+    for (unsigned int vertex = 0; vertex < vertices.getSize(); vertex++) {
         if (status[vertex] != 0)
             continue;
         status[vertex] = STAGED;
@@ -84,10 +84,10 @@ void Graph::bipartiteness() {
         side[vertex] = 1;
 
         while (!queue.isEmpty()) {
-            unsigned long long current = queue.dequeue();
+            unsigned int current = queue.dequeue();
 
-            for (unsigned long long i = 0llu; i < vertices[current].getSize(); i++) {
-                unsigned long long check = vertices[current][i] - 1llu;
+            for (unsigned int i = 0; i < vertices[current].getSize(); i++) {
+                unsigned int check = vertices[current][i] - 1;
 
                 if (side[check] == 0)
                     side[check] = side[current] == 1 ? 2 : 1;
@@ -133,9 +133,9 @@ void Graph::subgraphsC4() {
 
 void Graph::complementEdges() {
     unsigned long long max_edges = vertices.getSize() * (vertices.getSize() - 1) / 2;
-    unsigned long long current_edges = 0;
+    unsigned long long current_edges = 0llu;
 
-    for (unsigned long long i = 0; i < vertices.getSize(); i++)
+    for (unsigned int i = 0; i < vertices.getSize(); i++)
         current_edges += vertices[i].getSize();
     current_edges /= 2;
 
@@ -144,6 +144,6 @@ void Graph::complementEdges() {
     printf("%llu\n", complement_edges);
 }
 
-Vector<Vector<unsigned long long>>& Graph::getVertices() {
+Vector<Vector<unsigned int>>& Graph::getVertices() {
     return vertices;
 }
