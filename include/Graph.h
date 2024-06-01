@@ -11,7 +11,9 @@ class Graph {
 private:
     Vector<Vector<unsigned int>> vertices;
 
-    void countC4usingDfsWithDepth(unsigned int searched, unsigned int vertex, bool *visited, unsigned int* counter, unsigned char depth = 0);
+    bool isNeighbor(unsigned int first, unsigned int second);
+    unsigned int numberOfCommonNeighbor(unsigned int first, unsigned int second);
+    unsigned int countC4();
 
 public:
     explicit Graph(unsigned int vert);

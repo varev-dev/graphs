@@ -127,38 +127,57 @@ void Graph::vertexColors() {
     printf("?\n");
 }
 
-void Graph::countC4usingDfsWithDepth(unsigned int searched, unsigned int vertex, bool *visited, unsigned int* counter, unsigned char depth) {
-    if (depth == 4) {
-        if (vertex == searched)
-            (*counter)++;
-        return;
+bool Graph::isNeighbor(unsigned int first, unsigned int second) {
+    if (vertices[first].getSize() > vertices[second].getSize()) {
+        unsigned int temp = first;
+        first = second;
+        second = temp;
     }
-    for (unsigned int i = 0; i < vertices[vertex].getSize(); i++) {
-        unsigned int node = vertices[vertex][i]-1;
-        if (visited[node] || (node == searched && depth < 3))
-            continue;
 
-        visited[node] = true;
-        countC4usingDfsWithDepth(searched, node, visited, counter, depth+1);
-        visited[node] = false;
+    for (unsigned int i = 0; i < vertices[first].getSize(); i++) {
+        if (vertices[first][i]-1 == second)
+            return true;
     }
+
+    return false;
+}
+
+unsigned int Graph::numberOfCommonNeighbor(unsigned int first, unsigned int second) {
+    bool* check = new bool[vertices.getSize()];
+    unsigned int counter = 0;
+
+    for (unsigned int i = 0; i < vertices.getSize(); i++)
+        check[i] = false;
+
+    for (unsigned int i = 0; i < vertices[first].getSize(); i++)
+        check[vertices[first][i]-1] = true;
+
+    for (unsigned int i = 0; i < vertices[second].getSize(); i++) {
+        if (check[vertices[second][i]-1])
+            counter++;
+    }
+
+    delete[] check;
+    return counter;
+}
+
+unsigned int Graph::countC4() {
+    unsigned int size = vertices.getSize();
+    unsigned int counter = 0;
+
+    for (unsigned int u = 0; u < size; u++) {
+        for (unsigned int v = 0; v < size; v++) {
+            if (u == v)
+                continue;
+            unsigned int common = numberOfCommonNeighbor(u, v);
+            counter += common * (common - 1);
+        }
+    }
+    return counter/8;
 }
 
 void Graph::subgraphsC4() {
-    unsigned int counter = 0;
-    bool *visited = new bool[vertices.getSize()];
-
-    for (unsigned int i = 0; i < vertices.getSize(); i++)
-        visited[i] = vertices[i].getSize() < 2;
-
-    for (unsigned int i = 0; i < vertices.getSize(); i++) {
-        if (visited[i])
-            continue;
-        countC4usingDfsWithDepth(i, i, visited, &counter, 0);
-        visited[i] = true;
-    }
-    delete[] visited;
-    printf("%u\n", counter/2);
+    printf("%u\n", countC4());
 }
 
 void Graph::complementEdges() {

@@ -135,15 +135,15 @@ Vector<T>& Vector<T>::operator=(const Vector<T> &other) {
 
 template<typename T>
 T& Vector<T>::operator[](unsigned int index) {
-    if (index >= size)
-        throw std::out_of_range("index out of range");
+    /*if (index >= size)
+        throw std::out_of_range("index out of range");*/
     return data[index];
 }
 
 template<typename T>
 const T& Vector<T>::operator[](unsigned int index) const {
-    if (index >= size)
-        throw std::out_of_range("index out of range");
+    /*if (index >= size)
+        throw std::out_of_range("index out of range");*/
     return data[index];
 }
 
