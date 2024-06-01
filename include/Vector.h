@@ -15,14 +15,19 @@ class Vector {
 private:
     unsigned int size, capacity;
     T* data;
-
-    [[nodiscard]] bool isSorted() const;
-    unsigned int partition(unsigned int leftIter, unsigned int rightIter);
-
 public:
+    enum Order {
+        ASCENDING,
+        DESCENDING
+    };
+
+    [[nodiscard]] bool isSorted(Order order) const;
+    unsigned int partition(unsigned int leftIter, unsigned int rightIter, Order order);
+
     Vector();
     explicit Vector(unsigned int init_capacity);
     Vector(const Vector<T>& other);
+    Vector(unsigned int init_capacity, unsigned int filled_with);
     ~Vector();
 
     [[nodiscard]] unsigned int getSize() const;
@@ -32,7 +37,7 @@ public:
     void print() const;
 
     bool contains(const T& value);
-    void sort(unsigned int leftIter, unsigned int rightIter);
+    void sort(unsigned int leftIter, unsigned int rightIter, Order order);
 
     Vector<T>& operator=(const Vector& other);
     T& operator[](unsigned int index);

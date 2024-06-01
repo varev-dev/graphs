@@ -11,10 +11,7 @@ class Graph {
 private:
     Vector<Vector<unsigned int>> vertices;
 
-    bool isNeighbor(unsigned int first, unsigned int second);
-    unsigned int numberOfCommonNeighbor(unsigned int first, unsigned int second);
     unsigned int countC4();
-
 public:
     explicit Graph(unsigned int vert);
     explicit Graph(const Vector<Vector<unsigned int>>& vertices);

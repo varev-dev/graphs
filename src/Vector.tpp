@@ -30,6 +30,13 @@ Vector<T>::Vector(const Vector<T>& other) : size(other.size), capacity(other.cap
 }
 
 template<typename T>
+Vector<T>::Vector(unsigned int init_capacity, unsigned int filled_with) : size(init_capacity-1), capacity(init_capacity) {
+    data = new T[capacity];
+    for (unsigned int i = 0; i < init_capacity; i++)
+        data[i] = filled_with;
+}
+
+template<typename T>
 Vector<T>::~Vector() {
     delete[] data;
 }
@@ -66,10 +73,17 @@ void Vector<T>::print() const {
 }
 
 template<typename T>
-bool Vector<T>::isSorted() const {
-    for (unsigned int i = 0; i < size-1; i++) {
-        if (data[i] < data[i+1])
-            return false;
+bool Vector<T>::isSorted(Order order) const {
+    if (order == DESCENDING) {
+        for (unsigned int i = 0; i < size - 1; i++) {
+            if (data[i] < data[i + 1])
+                return false;
+        }
+    } else {
+        for (unsigned int i = 0; i < size - 1; i++) {
+            if (data[i] > data[i + 1])
+                return false;
+        }
     }
     return true;
 }
@@ -84,24 +98,31 @@ bool Vector<T>::contains(const T &value) {
 }
 
 template<typename T>
-void Vector<T>::sort(unsigned int leftIter, unsigned int rightIter) {
-    if (leftIter >= rightIter || rightIter >= size || isSorted())
+void Vector<T>::sort(unsigned int leftIter, unsigned int rightIter, Order order) {
+    if (leftIter >= rightIter || rightIter >= size || isSorted(order))
         return;
 
-    unsigned int pivot = partition(leftIter, rightIter);
-    sort(leftIter, pivot);
-    sort(pivot+1, rightIter);
+    unsigned int pivot = partition(leftIter, rightIter, order);
+    sort(leftIter, pivot, order);
+    sort(pivot+1, rightIter, order);
 }
 
 template <typename T>
-unsigned int Vector<T>::partition(unsigned int leftIter, unsigned int rightIter) {
+unsigned int Vector<T>::partition(unsigned int leftIter, unsigned int rightIter, Order order) {
     T pivot = data[leftIter];
 
     while (true) {
-        while (data[leftIter] > pivot)
-            leftIter++;
-        while (data[rightIter] < pivot)
-            rightIter--;
+        if (order == ASCENDING) {
+            while (data[leftIter] < pivot)
+                leftIter++;
+            while (data[rightIter] > pivot)
+                rightIter--;
+        } else {
+            while (data[leftIter] > pivot)
+                leftIter++;
+            while (data[rightIter] < pivot)
+                rightIter--;
+        }
 
         if (leftIter < rightIter) {
             T temp = data[leftIter];

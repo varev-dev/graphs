@@ -24,7 +24,7 @@ void Graph::degreeSequence() {
     for (unsigned int i = 0; i < this->vertices.getSize(); i++)
         degrees.push_back(this->vertices[i].getSize());
 
-    degrees.sort(0, degrees.getSize() - 1);
+    degrees.sort(0, degrees.getSize() - 1, Vector<unsigned int>::DESCENDING);
     degrees.print();
 }
 
@@ -127,53 +127,46 @@ void Graph::vertexColors() {
     printf("?\n");
 }
 
-bool Graph::isNeighbor(unsigned int first, unsigned int second) {
-    if (vertices[first].getSize() > vertices[second].getSize()) {
-        unsigned int temp = first;
-        first = second;
-        second = temp;
-    }
-
-    for (unsigned int i = 0; i < vertices[first].getSize(); i++) {
-        if (vertices[first][i]-1 == second)
-            return true;
-    }
-
-    return false;
-}
-
-unsigned int Graph::numberOfCommonNeighbor(unsigned int first, unsigned int second) {
-    bool* check = new bool[vertices.getSize()];
-    unsigned int counter = 0;
-
-    for (unsigned int i = 0; i < vertices.getSize(); i++)
-        check[i] = false;
-
-    for (unsigned int i = 0; i < vertices[first].getSize(); i++)
-        check[vertices[first][i]-1] = true;
-
-    for (unsigned int i = 0; i < vertices[second].getSize(); i++) {
-        if (check[vertices[second][i]-1])
-            counter++;
-    }
-
-    delete[] check;
-    return counter;
-}
-
+/**
+ * Based on a research paper "Simple and efficient four-cycle counting on sparse graphs"
+ * authors: Paul Burkhardt and David G. Harris
+ */
 unsigned int Graph::countC4() {
     unsigned int size = vertices.getSize();
     unsigned int counter = 0;
 
-    for (unsigned int u = 0; u < size; u++) {
-        for (unsigned int v = 0; v < size; v++) {
-            if (u == v)
-                continue;
-            unsigned int common = numberOfCommonNeighbor(u, v);
-            counter += common * (common - 1);
+    Vector<unsigned int> L(vertices.getSize(), 0);
+
+    for (unsigned int v = 0; v < size; ++v) {
+        if (vertices[v].getSize() < 2)
+            continue;
+
+        for (unsigned int i = 0; i < vertices[v].getSize(); ++i) {
+            unsigned int u = vertices[v][i]-1;
+            if (u >= v) break;
+
+            for (unsigned int j = 0; j < vertices[u].getSize(); ++j) {
+                unsigned int y = vertices[u][j]-1;
+                if (y >= v) break;
+
+                counter += L[y];
+                L[y]++;
+            }
+        }
+
+        for (unsigned int i = 0; i < vertices[v].getSize(); ++i) {
+            unsigned int u = vertices[v][i]-1;
+            if (u >= v) break;
+
+            for (unsigned int j = 0; j < vertices[u].getSize(); ++j) {
+                unsigned int y = vertices[u][j]-1;
+                if (y >= v) break;
+
+                L[y] = 0;
+            }
         }
     }
-    return counter/8;
+    return counter;
 }
 
 void Graph::subgraphsC4() {

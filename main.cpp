@@ -11,6 +11,7 @@ void readVertices(unsigned int n, Vector<Vector<unsigned int>>& vertices) {
             vertex->push_back(value);
             size--;
         }
+        vertex->sort(0, vertex->getSize()-1, Vector<unsigned int>::ASCENDING);
         vertices.push_back(*vertex);
         delete vertex;
         n--;
