@@ -75,6 +75,15 @@ bool Vector<T>::isSorted() const {
 }
 
 template<typename T>
+bool Vector<T>::contains(const T &value) {
+    for (unsigned int i = 0; i < size; i++) {
+        if (data[i] == value)
+            return true;
+    }
+    return false;
+}
+
+template<typename T>
 void Vector<T>::sort(unsigned int leftIter, unsigned int rightIter) {
     if (leftIter >= rightIter || rightIter >= size || isSorted())
         return;

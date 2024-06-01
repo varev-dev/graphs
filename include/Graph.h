@@ -11,6 +11,8 @@ class Graph {
 private:
     Vector<Vector<unsigned int>> vertices;
 
+    void countC4usingDfsWithDepth(unsigned int searched, unsigned int vertex, bool *visited, unsigned int* counter, unsigned char depth = 0);
+
 public:
     explicit Graph(unsigned int vert);
     explicit Graph(const Vector<Vector<unsigned int>>& vertices);

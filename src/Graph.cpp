@@ -127,16 +127,46 @@ void Graph::vertexColors() {
     printf("?\n");
 }
 
+void Graph::countC4usingDfsWithDepth(unsigned int searched, unsigned int vertex, bool *visited, unsigned int* counter, unsigned char depth) {
+    if (depth == 4) {
+        if (vertex == searched)
+            (*counter)++;
+        return;
+    }
+    for (unsigned int i = 0; i < vertices[vertex].getSize(); i++) {
+        unsigned int node = vertices[vertex][i]-1;
+        if (visited[node] || (node == searched && depth < 3))
+            continue;
+
+        visited[node] = true;
+        countC4usingDfsWithDepth(searched, node, visited, counter, depth+1);
+        visited[node] = false;
+    }
+}
+
 void Graph::subgraphsC4() {
-    printf("?\n");
+    unsigned int counter = 0;
+    bool *visited = new bool[vertices.getSize()];
+
+    for (unsigned int i = 0; i < vertices.getSize(); i++)
+        visited[i] = vertices[i].getSize() < 2;
+
+    for (unsigned int i = 0; i < vertices.getSize(); i++) {
+        if (visited[i])
+            continue;
+        countC4usingDfsWithDepth(i, i, visited, &counter, 0);
+        visited[i] = true;
+    }
+    delete[] visited;
+    printf("%u\n", counter/2);
 }
 
 void Graph::complementEdges() {
-    unsigned long long max_edges = vertices.getSize() * (vertices.getSize() - 1) / 2;
+    unsigned long long max_edges = (unsigned long long) vertices.getSize() * (vertices.getSize() - 1llu) / 2;
     unsigned long long current_edges = 0llu;
 
     for (unsigned int i = 0; i < vertices.getSize(); i++)
-        current_edges += vertices[i].getSize();
+        current_edges += (unsigned long long) vertices[i].getSize();
     current_edges /= 2;
 
     unsigned long long complement_edges = max_edges - current_edges;

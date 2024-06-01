@@ -31,6 +31,7 @@ public:
     void push_back(const T& value);
     void print() const;
 
+    bool contains(const T& value);
     void sort(unsigned int leftIter, unsigned int rightIter);
 
     Vector<T>& operator=(const Vector& other);
