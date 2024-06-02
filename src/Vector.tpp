@@ -30,7 +30,7 @@ Vector<T>::Vector(const Vector<T>& other) : size(other.size), capacity(other.cap
 }
 
 template<typename T>
-Vector<T>::Vector(unsigned int init_capacity, unsigned int filled_with) : size(init_capacity-1), capacity(init_capacity) {
+Vector<T>::Vector(unsigned int init_capacity, unsigned int filled_with) : size(init_capacity), capacity(init_capacity) {
     data = new T[capacity];
     for (unsigned int i = 0; i < init_capacity; i++)
         data[i] = filled_with;

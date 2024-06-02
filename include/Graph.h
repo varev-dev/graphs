@@ -11,14 +11,16 @@ class Graph {
 private:
     Vector<Vector<unsigned int>> vertices;
 
-    unsigned int countC4();
+    unsigned long long countC4();
+    static int firstAvailableColor(const Vector<int>& colors, const Vector<int>& available);
+    void colorsNaive();
+    //void colorsLF();
 public:
     explicit Graph(unsigned int vert);
     explicit Graph(const Vector<Vector<unsigned int>>& vertices);
+    ~Graph();
 
     Vector<Vector<unsigned int>>& getVertices();
-
-    ~Graph();
 
     void degreeSequence();
     void connectedComponents();

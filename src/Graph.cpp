@@ -121,9 +121,46 @@ void Graph::planarity() {
     printf("?\n");
 }
 
+int Graph::firstAvailableColor(const Vector<int>& colors, const Vector<int>& available) {
+    for (int color = 0; color < colors.getSize(); color++) {
+        if (available[color])
+            return color;
+    }
+    return colors.getSize();
+}
+
+void Graph::colorsNaive() {
+    unsigned int size = vertices.getSize();
+    Vector<int> colors(size, -1);
+
+    colors[0] = 0;
+    printf("%d ", 1);
+
+    Vector<int> available(size, 1);
+    for (unsigned int u = 1; u < size; u++) {
+        for (unsigned int i = 0; i < vertices[u].getSize(); i++) {
+            unsigned int v = vertices[u][i]-1;
+            if (v >= u) break;
+            if (colors[v] != -1)
+                available[colors[v]] = 0;
+        }
+
+        int color = firstAvailableColor(colors, available);
+        colors[u] = color;
+        printf("%d ", color+1);
+
+        for (unsigned int i = 0; i < vertices[u].getSize(); i++) {
+            unsigned int v = vertices[u][i]-1;
+            if (v >= u) break;
+            available[colors[v]] = 1;
+        }
+    }
+    printf("\n");
+}
+
 void Graph::vertexColors() {
-    printf("?\n");
-    printf("?\n");
+    colorsNaive();
+    colorsLF();
     printf("?\n");
 }
 
@@ -131,9 +168,9 @@ void Graph::vertexColors() {
  * Based on a research paper "Simple and efficient four-cycle counting on sparse graphs"
  * authors: Paul Burkhardt and David G. Harris
  */
-unsigned int Graph::countC4() {
+unsigned long long Graph::countC4() {
     unsigned int size = vertices.getSize();
-    unsigned int counter = 0;
+    unsigned long long counter = 0ull;
 
     Vector<unsigned int> L(vertices.getSize(), 0);
 
@@ -149,7 +186,7 @@ unsigned int Graph::countC4() {
                 unsigned int y = vertices[u][j]-1;
                 if (y >= v) break;
 
-                counter += L[y];
+                counter += (unsigned long long) L[y];
                 L[y]++;
             }
         }
@@ -170,7 +207,7 @@ unsigned int Graph::countC4() {
 }
 
 void Graph::subgraphsC4() {
-    printf("%u\n", countC4());
+    printf("%llu\n", countC4());
 }
 
 void Graph::complementEdges() {
