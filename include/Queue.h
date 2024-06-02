@@ -16,20 +16,12 @@ private:
     void resize();
 public:
     explicit Queue(unsigned int init_capacity);
-    Queue(const Queue<T>& other);
     ~Queue();
 
-    [[nodiscard]] unsigned int getSize() const;
-    T* getData() const;
-
     [[nodiscard]] bool isEmpty() const;
-    void print();
 
     void enqueue(const T& value);
     T dequeue();
-
-    T& head();
-    T& tail();
 };
 
 #include "../src/Queue.tpp"

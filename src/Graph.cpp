@@ -164,7 +164,7 @@ void Graph::swap(int& a, int& b) {
     b = temp;
 }
 
-unsigned int Graph::partition(Vector<int>& indices, const Vector<Vector<unsigned int>>& vertices, int low, int high) {
+int Graph::partition(Vector<int>& indices, int low, int high) {
     unsigned int pivotIndex = indices[high];
     unsigned int pivotSize = vertices[pivotIndex].getSize();
     int i = low - 1;
@@ -179,19 +179,19 @@ unsigned int Graph::partition(Vector<int>& indices, const Vector<Vector<unsigned
     return i + 1;
 }
 
-void Graph::sortIndicesByEdges(Vector<int>& indices, const Vector<Vector<unsigned int>>& vertices, int low, int high) {
+void Graph::sortIndicesByEdges(Vector<int>& indices, int low, int high) {
     if (low < high) {
-        int pi = partition(indices, vertices, low, high);
+        int pi = partition(indices, low, high);
 
-        sortIndicesByEdges(indices, vertices, low, pi - 1);
-        sortIndicesByEdges(indices, vertices, pi + 1, high);
+        sortIndicesByEdges(indices, low, pi - 1);
+        sortIndicesByEdges(indices, pi + 1, high);
     }
 }
 
-Vector<int> Graph::sort(const Vector<int>& indices, const Vector<Vector<unsigned int>>& vertices) {
+Vector<int> Graph::sort(const Vector<int>& indices) {
     Vector<int> sortedIndices(indices);
 
-    sortIndicesByEdges(sortedIndices, vertices, 0, sortedIndices.getSize() - 1);
+    sortIndicesByEdges(sortedIndices, 0, sortedIndices.getSize() - 1);
 
     return sortedIndices;
 }
@@ -203,7 +203,7 @@ void Graph::colorsLF() {
 
     for (int i = 0; i < size; i++)
         indices.push_back( i);
-    indices = sort(indices, vertices);
+    indices = sort(indices);
 
     colors[indices[0]] = 0;
     Vector<int> available(size, 1);

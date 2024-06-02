@@ -15,9 +15,9 @@ private:
     static int firstAvailableColor(const Vector<int>& colors, const Vector<int>& available);
     void colorsNaive();
     void swap(int& a, int& b);
-    unsigned int partition(Vector<int>& indices, const Vector<Vector<unsigned int>>& vertices, int low, int high);
-    void sortIndicesByEdges(Vector<int>& indices, const Vector<Vector<unsigned int>>& vertices, int low, int high);
-    Vector<int> sort(const Vector<int>& indices, const Vector<Vector<unsigned int>>& vertices);
+    int partition(Vector<int>& indices, int low, int high);
+    void sortIndicesByEdges(Vector<int>& indices, int low, int high);
+    Vector<int> sort(const Vector<int>& indices);
     void colorsLF();
 public:
     explicit Graph(unsigned int vert);

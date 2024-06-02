@@ -13,35 +13,8 @@ Queue<T>::Queue(unsigned int init_capacity) : size(0), capacity(init_capacity) {
 }
 
 template<typename T>
-Queue<T>::Queue(const Queue<T>& other) : size(other.size), capacity(other.capacity) {
-    if (capacity > 0) {
-        data = new T[capacity];
-        for (unsigned int i = 0; i < size; i++)
-            data[i] = other.data[i];
-    }
-}
-
-template<typename T>
 Queue<T>::~Queue() {
     delete[] data;
-}
-
-template<typename T>
-void Queue<T>::print() {
-    for (unsigned int i = 0; i < size; i++) {
-        printf("%u ", data[i]);
-    }
-    printf("\n");
-}
-
-template<typename T>
-unsigned int Queue<T>::getSize() const {
-    return size;
-}
-
-template<typename T>
-T* Queue<T>::getData() const {
-    return data;
 }
 
 template<typename T>
@@ -79,16 +52,6 @@ T Queue<T>::dequeue() {
         data[i-1] = data[i];
     size--;
     return value;
-}
-
-template<typename T>
-T& Queue<T>::head() {
-    return data[0];
-}
-
-template<typename T>
-T& Queue<T>::tail() {
-    return data[size-1];
 }
 
 #endif //GRAPHS_QUEUE_TPP
