@@ -138,7 +138,7 @@ unsigned int Vector<T>::partition(unsigned int leftIter, unsigned int rightIter,
 }
 
 template<typename T>
-Vector<T>& Vector<T>::operator=(const Vector<T> &other) {
+Vector<T>& Vector<T>::operator=(const Vector<T>& other) {
     if (this != &other) {
         delete[] data;
         size = other.size;

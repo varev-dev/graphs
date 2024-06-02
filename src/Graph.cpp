@@ -158,24 +158,60 @@ void Graph::colorsNaive() {
     printf("\n");
 }
 
+void Graph::swap(int& a, int& b) {
+    int temp = a;
+    a = b;
+    b = temp;
+}
+
+unsigned int Graph::partition(Vector<int>& indices, const Vector<Vector<unsigned int>>& vertices, int low, int high) {
+    unsigned int pivotIndex = indices[high];
+    unsigned int pivotSize = vertices[pivotIndex].getSize();
+    int i = low - 1;
+
+    for (int j = low; j <= high - 1; ++j) {
+        if (vertices[indices[j]].getSize() > pivotSize || (vertices[indices[j]].getSize() == pivotSize && indices[j] < pivotIndex)) {
+            ++i;
+            swap(indices[i], indices[j]);
+        }
+    }
+    swap(indices[i + 1], indices[high]);
+    return i + 1;
+}
+
+void Graph::sortIndicesByEdges(Vector<int>& indices, const Vector<Vector<unsigned int>>& vertices, int low, int high) {
+    if (low < high) {
+        int pi = partition(indices, vertices, low, high);
+
+        sortIndicesByEdges(indices, vertices, low, pi - 1);
+        sortIndicesByEdges(indices, vertices, pi + 1, high);
+    }
+}
+
+Vector<int> Graph::sort(const Vector<int>& indices, const Vector<Vector<unsigned int>>& vertices) {
+    Vector<int> sortedIndices(indices);
+
+    sortIndicesByEdges(sortedIndices, vertices, 0, sortedIndices.getSize() - 1);
+
+    return sortedIndices;
+}
+
 void Graph::colorsLF() {
     unsigned int size = vertices.getSize();
     Vector<int> colors(size, -1);
-    Vector<unsigned int> order(size);
+    Vector<int> indices(size);
 
-    for (unsigned int i = 0; i < vertices.getSize(); i++)
-        order.push_back(vertices[i].getSize());
+    for (int i = 0; i < size; i++)
+        indices.push_back( i);
+    indices = sort(indices, vertices);
 
-    order.sort(0, order.getSize()-1, Vector<unsigned int>::DESCENDING);
+    colors[indices[0]] = 0;
     Vector<int> available(size, 1);
-    available[0] = 1;
-    for (unsigned int i = 0; i < size; i++) {
-        unsigned int u = 0;
-        for (; u < size; u++) {
-            if (order[i] == vertices[u].getSize() && colors[u] == -1)
-                break;
-        }
-        for (unsigned int j = 0; j < vertices[u].getSize(); j++) {
+    for (unsigned int i = 1; i < size; i++) {
+        int u = indices[i];
+        unsigned int edges = vertices[u].getSize();
+
+        for (unsigned int j = 0; j < edges; j++) {
             unsigned int v = vertices[u][j]-1;
             if (colors[v] != -1)
                 available[colors[v]] = 0;
@@ -184,14 +220,14 @@ void Graph::colorsLF() {
         int color = firstAvailableColor(colors, available);
         colors[u] = color;
 
-        for (unsigned int j = 0; j < vertices[u].getSize(); j++) {
+        for (unsigned int j = 0; j < edges; j++) {
             unsigned int v = vertices[u][j]-1;
             if (colors[v] != -1)
                 available[colors[v]] = 1;
         }
     }
 
-    for (unsigned int i = 0; i < vertices.getSize(); i++)
+    for (unsigned int i = 0; i < size; i++)
         printf("%d ", colors[i]+1);
     printf("\n");
 }
@@ -204,7 +240,8 @@ void Graph::vertexColors() {
 
 /**
  * Based on a research paper "Simple and efficient four-cycle counting on sparse graphs"
- * authors: Paul Burkhardt and David G. Harris
+ * @authors: Paul Burkhardt and David G. Harris
+ * @source: https://arxiv.org/pdf/2303.06090
  */
 unsigned long long Graph::countC4() {
     unsigned int size = vertices.getSize();

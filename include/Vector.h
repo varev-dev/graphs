@@ -15,6 +15,7 @@ class Vector {
 private:
     unsigned int size, capacity;
     T* data;
+
 public:
     enum Order {
         ASCENDING,
@@ -38,8 +39,7 @@ public:
 
     bool contains(const T& value);
     void sort(unsigned int leftIter, unsigned int rightIter, Order order);
-
-    Vector<T>& operator=(const Vector& other);
+    Vector<T>& operator=(const Vector<T>& other);
     T& operator[](unsigned int index);
     const T& operator[](unsigned int index) const;
 };
