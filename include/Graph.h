@@ -14,7 +14,7 @@ private:
     unsigned long long countC4();
     static int firstAvailableColor(const Vector<int>& colors, const Vector<int>& available);
     void colorsNaive();
-    //void colorsLF();
+    void colorsLF();
 public:
     explicit Graph(unsigned int vert);
     explicit Graph(const Vector<Vector<unsigned int>>& vertices);

@@ -158,6 +158,44 @@ void Graph::colorsNaive() {
     printf("\n");
 }
 
+void Graph::colorsLF() {
+    unsigned int size = vertices.getSize();
+    Vector<int> colors(size, -1);
+    Vector<unsigned int> order(size);
+
+    for (unsigned int i = 0; i < vertices.getSize(); i++)
+        order.push_back(vertices[i].getSize());
+
+    order.sort(0, order.getSize()-1, Vector<unsigned int>::DESCENDING);
+    Vector<int> available(size, 1);
+    available[0] = 1;
+    for (unsigned int i = 0; i < size; i++) {
+        unsigned int u = 0;
+        for (; u < size; u++) {
+            if (order[i] == vertices[u].getSize() && colors[u] == -1)
+                break;
+        }
+        for (unsigned int j = 0; j < vertices[u].getSize(); j++) {
+            unsigned int v = vertices[u][j]-1;
+            if (colors[v] != -1)
+                available[colors[v]] = 0;
+        }
+
+        int color = firstAvailableColor(colors, available);
+        colors[u] = color;
+
+        for (unsigned int j = 0; j < vertices[u].getSize(); j++) {
+            unsigned int v = vertices[u][j]-1;
+            if (colors[v] != -1)
+                available[colors[v]] = 1;
+        }
+    }
+
+    for (unsigned int i = 0; i < vertices.getSize(); i++)
+        printf("%d ", colors[i]+1);
+    printf("\n");
+}
+
 void Graph::vertexColors() {
     colorsNaive();
     colorsLF();
